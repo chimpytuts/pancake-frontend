@@ -6,7 +6,6 @@ import { Currency, CurrencyAmount, Percent, Token, TradeType } from '@pancakeswa
 import { Permit2Signature } from '@pancakeswap/universal-router-sdk'
 import { ConfirmModalState, useAsyncConfirmPriceImpactWithoutFee } from '@pancakeswap/widgets-internal'
 import { ALLOWED_PRICE_IMPACT_HIGH, PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN } from 'config/constants/exchange'
-import useAccountActiveChain from 'hooks/useAccountActiveChain'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { usePermit2 } from 'hooks/usePermit2'
 import { usePermit2Requires } from 'hooks/usePermit2Requires'
@@ -24,6 +23,7 @@ import {
   TransactionReceiptNotFoundError,
   erc20Abi,
 } from 'viem'
+import { useAccount } from 'wagmi'
 import { computeTradePriceBreakdown } from '../utils/exchange'
 import { userRejectedError } from './useSendSwapTransaction'
 import { useSwapCallback } from './useSwapCallback'
@@ -85,7 +85,7 @@ const useConfirmActions = (
   const { revoke, permit, approve } = usePermit2(amountToApprove, spender, {
     enablePaymaster: true,
   })
-  const { account } = useAccountActiveChain()
+  const { address: account } = useAccount()
   const getAllowanceArgs = useMemo(() => {
     if (!chainId) return undefined
     const inputs = [account, getPermit2Address(chainId)] as [`0x${string}`, `0x${string}`]

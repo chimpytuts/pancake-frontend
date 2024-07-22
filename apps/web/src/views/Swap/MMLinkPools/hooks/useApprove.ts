@@ -1,13 +1,13 @@
 import { CurrencyAmount, Token } from '@pancakeswap/swap-sdk-core'
 import { bscTestnetTokens, ethereumTokens, goerliTestnetTokens } from '@pancakeswap/tokens'
-import useAccountActiveChain from 'hooks/useAccountActiveChain'
 import { useApproveCallback } from 'hooks/useApproveCallback'
 import useTokenAllowance from 'hooks/useTokenAllowance'
 import { useMemo, useState } from 'react'
 import { Address, isAddressEqual } from 'viem'
+import { useAccount } from 'wagmi'
 
 export const useApproveRequires = (amount: CurrencyAmount<Token> | undefined, spender?: Address) => {
-  const { account } = useAccountActiveChain()
+  const { address: account } = useAccount()
   const { allowance, refetch } = useTokenAllowance(amount?.currency, account, spender)
 
   const requireRevoke = useMemo((): boolean => {
