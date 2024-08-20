@@ -4,6 +4,7 @@ import { useAccountLocalEventListener } from 'hooks/useAccountLocalEventListener
 import { useEffect, useRef } from 'react'
 import { useChartView, useIsChartPaneOpen } from 'state/predictions/hooks'
 import { useUserPredictionChainlinkChartDisclaimerShow, useUserPredictionChartDisclaimerShow } from 'state/user/hooks'
+import { SubMenu } from 'views/Lottery/components/SubMenu'
 
 import Desktop from './Desktop'
 import Mobile from './Mobile'
@@ -68,6 +69,7 @@ const Predictions = () => {
 
   return (
     <SwiperProvider>
+      <SubMenu />
       <InPageBanner />
       <Container>
         <Warnings />
