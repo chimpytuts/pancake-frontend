@@ -69,9 +69,9 @@ const Predictions = () => {
 
   return (
     <SwiperProvider>
-      <SubMenu />
       <InPageBanner />
       <Container>
+        <SubMenu />
         <Warnings />
         <RiskDisclaimer />
         {isDesktop ? <Desktop /> : <Mobile />}
