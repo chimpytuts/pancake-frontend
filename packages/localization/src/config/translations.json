@@ -3529,5 +3529,6 @@
   "This is not investment advice. Participation involves risks and may be restricted in some regions. Please ensure compliance with local laws and regulations before participating.": "This is not investment advice. Participation involves risks and may be restricted in some regions. Please ensure compliance with local laws and regulations before participating.",
   "Eigenpie IFO": "Eigenpie IFO",
   "Join IFO": "Join IFO",
-  "%amount% of your liquidity is currently staking in farm.": "%amount% of your liquidity is currently staking in farm."
+  "%amount% of your liquidity is currently staking in farm.": "%amount% of your liquidity is currently staking in farm.",
+  "Based on last 24 hours' performance. Does not account for impermanent loss": "Based on last 24 hours' performance. Does not account for impermanent loss"
 }
