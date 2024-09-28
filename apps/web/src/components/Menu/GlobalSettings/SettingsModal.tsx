@@ -32,7 +32,6 @@ import { ExpertModal } from '@pancakeswap/widgets-internal'
 import { TOKEN_RISK } from 'components/AccessRisk'
 import AccessRiskTooltips from 'components/AccessRisk/AccessRiskTooltips'
 import { useActiveChainId } from 'hooks/useActiveChainId'
-import { useSpeedQuote } from 'hooks/useSpeedQuote'
 import useTheme from 'hooks/useTheme'
 import { useWebNotifications } from 'hooks/useWebNotifications'
 import { ReactNode, Suspense, lazy, useCallback, useState } from 'react'
@@ -40,6 +39,7 @@ import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
 import { useSubgraphHealthIndicatorManager, useUserUsernameVisibility } from 'state/user/hooks'
 import { useUserShowTestnet } from 'state/user/hooks/useUserShowTestnet'
 import { useUserTokenRisk } from 'state/user/hooks/useUserTokenRisk'
+import { useSpeedQuote } from 'hooks/useSpeedQuote'
 import {
   useMMLinkedPoolByDefault,
   useOnlyOneAMMSourceEnabled,
@@ -395,7 +395,7 @@ function RoutingSettings() {
             <Toggle
               disabled={v3Enable && onlyOneAMMSourceEnabled}
               scale="md"
-              checked
+              checked={v3Enable}
               onChange={() => setV3Enable((s) => !s)}
             />
           </Flex>
@@ -418,10 +418,10 @@ function RoutingSettings() {
               />
             </Flex>
             <Toggle
-              disabled // Always disabled
+              disabled={v2Enable && onlyOneAMMSourceEnabled}
               scale="md"
-              checked={false} // Always false
-              onChange={() => {}} // No change function
+              checked={v2Enable}
+              onChange={() => setV2Enable((s) => !s)}
             />
           </Flex>
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
@@ -442,11 +442,13 @@ function RoutingSettings() {
               />
             </Flex>
             <PancakeToggle
-              disabled // Always disabled
+              disabled={isStableSwapByDefault && onlyOneAMMSourceEnabled}
               id="stable-swap-toggle"
               scale="md"
-              checked={false} // Always false
-              onChange={() => {}} // No change function
+              checked={isStableSwapByDefault}
+              onChange={() => {
+                setIsStableSwapByDefault((s) => !s)
+              }}
             />
           </Flex>
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
@@ -469,9 +471,8 @@ function RoutingSettings() {
             </Flex>
             <Toggle
               id="toggle-disable-mm-button"
-              disabled // Always disabled
-              checked={false} // Always false
-              onChange={() => {}} // No change function
+              checked={isMMLinkedPoolByDefault}
+              onChange={(e) => setIsMMLinkedPoolByDefault(e.target.checked)}
               scale="md"
             />
           </Flex>
@@ -489,10 +490,11 @@ function RoutingSettings() {
             <RowFixed as="label" gap="16px">
               <Checkbox
                 id="toggle-disable-multihop-button"
-                checked={false} // Always false
+                checked={!singleHopOnly}
                 scale="sm"
-                disabled // Always disabled
-                onChange={() => {}} // No change function
+                onChange={() => {
+                  setSingleHopOnly((s) => !s)
+                }}
               />
               <Text>{t('Allow Multihops')}</Text>
             </RowFixed>
@@ -518,11 +520,12 @@ function RoutingSettings() {
           <AutoRow alignItems="center" mb="24px">
             <RowFixed alignItems="center" as="label" gap="16px">
               <Checkbox
-                id="toggle-disable-split-routing-button"
-                checked={false} // Always false
+                id="toggle-disable-multihop-button"
+                checked={split}
                 scale="sm"
-                disabled // Always disabled
-                onChange={() => {}} // No change function
+                onChange={() => {
+                  setSplit((s) => !s)
+                }}
               />
               <Text>{t('Allow Split Routing')}</Text>
             </RowFixed>
